@@ -1,0 +1,23 @@
+{
+    "account_id": "394fea48b28fa3f0d4751e6a12240570",
+    "$schema": "./node_modules/wrangler/config-schema.json",
+    "name": "lmrs-shop",
+    "compatibility_date": "2026-03-22",
+    "compatibility_flags": ["nodejs_compat", "nodejs_als"],
+    "main": ".svelte-kit/cloudflare/_worker.js",
+    "assets": {
+        "binding": "ASSETS",
+        "directory": ".svelte-kit/cloudflare",
+    },
+    "workers_dev": true,
+    "preview_urls": true,
+    "d1_databases": [
+        {
+            "binding": "LMRS_SHOP",
+            "database_name": "lmrs-shop",
+            "database_id": "8506f3bb-ecfe-48b9-aba3-eb232f78177a",
+            "preview_database_id": "8506f3bb-ecfe-48b9-aba3-eb232f78177a",
+            "remote": false,
+        },
+    ],
+}

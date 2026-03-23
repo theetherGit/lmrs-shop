@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - esbuild
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: "*"
+    vitest: "*"
