@@ -126,6 +126,16 @@
     html {
         @apply font-sans;
     }
+
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    [role="button"]:disabled {
+        cursor: not-allowed;
+    }
 }
 
 @custom-variant data-open {

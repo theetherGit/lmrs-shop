@@ -3,6 +3,13 @@ import { auth } from "$lib/server/auth";
 import { getDb } from "$lib/server/db";
 import type { Handle } from "@sveltejs/kit";
 import { svelteKitHandler } from "better-auth/svelte-kit";
+import type { HandleValidationError } from '@sveltejs/kit';
+
+export const handleValidationError: HandleValidationError = ({ event, issues }) => {
+  return {
+		message: 'Do not try anything fishy.',
+	};
+};
 
 const handleBetterAuth: Handle = async ({ event, resolve }) => {
     if (building) return resolve(event);
