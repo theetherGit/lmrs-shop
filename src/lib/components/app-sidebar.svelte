@@ -21,16 +21,11 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import type { ComponentProps } from "svelte";
     import {useSidebar} from "$lib/components/ui/sidebar/index.js";
-    import {authClient} from "$lib/helpers/auth-client";
-
-    const session = $derived(authClient.useSession().get());
+    import {page} from "$app/state";
+    let session = page.data.user;
 
 	const data = {
-		user: {
-			name: session.data?.user.name || 'Unknown',
-			email: session.data?.user.email || 'Unknown',
-			avatar: session.data?.user.image || 'Unknown',
-		},
+		user: page.data.user,
 		navMain: [
 			{
 				title: "Dashboard",

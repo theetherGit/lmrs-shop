@@ -1,6 +1,6 @@
 import { building } from "$app/environment";
 import { getAuth } from "$lib/server/auth";
-import { createD1Connection, dbContext, getDb } from "$lib/server/db";
+import { createD1Connection, dbContext } from "$lib/server/db";
 import type { Handle } from "@sveltejs/kit";
 import { svelteKitHandler } from "better-auth/svelte-kit";
 import type { HandleValidationError } from '@sveltejs/kit';

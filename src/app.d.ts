@@ -1,5 +1,4 @@
-import type { createBetterAuth } from "$lib/server/auth";
-import type { User, Session } from "better-auth/minimal";
+import type { createBetterAuth, Session, User } from "$lib/server/auth";
 import type { Database } from "$lib/server/db/context";
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
