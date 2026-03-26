@@ -12,6 +12,8 @@
     import { loginRemoteFunction } from "$lib/remote-functions/login.remote.js";
     import * as Field from "$lib/components/ui/field/index.js";
     import { Spinner } from "$lib/components/ui/spinner/index.js";
+    import { slide } from "svelte/transition";
+    import { sineInOut } from "svelte/easing";
 
     type AuthTwoProps = HTMLAttributes<HTMLDivElement> & {
         class?: string;
@@ -24,7 +26,29 @@
         ...restProps
     }: AuthTwoProps = $props();
 
-    let { fields, pending } = loginRemoteFunction;
+    let formState = $state({
+        isLoading: false,
+    });
+
+    let { fields, result } = loginRemoteFunction;
+
+    async function enhancedFormLogin({
+        form,
+        submit,
+    }: Parameters<Parameters<typeof loginRemoteFunction.enhance>[0]>[0]) {
+        console.log("Loggin");
+        formState.isLoading = true;
+        try {
+            await submit();
+            if (result?.success) {
+                form.reset();
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            formState.isLoading = false;
+        }
+    }
 </script>
 
 <div
@@ -58,7 +82,7 @@
 
             <div class="space-y-4">
                 <form
-                    {...loginRemoteFunction}
+                    {...loginRemoteFunction.enhance(enhancedFormLogin)}
                     class="space-y-2"
                     onchange={() => loginRemoteFunction.validate()}
                 >
@@ -85,9 +109,10 @@
                             <Field.Label>Password</Field.Label>
                             <InputGroup>
                                 <InputGroupInput
-                                    placeholder={emailPlaceholder}
+                                    placeholder="************"
                                     {...fields.password.as("password")}
                                     type="password"
+                                    autocomplete="current-password"
                                 />
                                 <InputGroupAddon align="inline-start">
                                     <Lock />
@@ -104,12 +129,25 @@
                                 class="w-full"
                                 size="default"
                                 type="submit"
-                                disabled={!!pending || !!fields.allIssues()}
+                                disabled={formState.isLoading ||
+                                    !!fields.allIssues()}
                             >
-                                {#if pending}
-                                    <Spinner class="mr-2" />
+                                {#if formState.isLoading}
+                                    <div
+                                        class="inline"
+                                        transition:slide={{
+                                            axis: "x",
+                                            easing: sineInOut,
+                                        }}
+                                    >
+                                        <Spinner class="mr-1" />
+                                    </div>
                                 {/if}
-                                Login
+                                {#if formState.isLoading}
+                                    Logging...
+                                {:else}
+                                    Login
+                                {/if}
                             </Button>
                         </Field.Field>
                     </Field.Group>
