@@ -1,9 +1,10 @@
-import { form } from '$app/server';
+import { form, getRequestEvent } from '$app/server';
 import { loginSchema } from '$lib/models/auth-schema.js';
 import { tryCatch } from '$lib/helpers/try-catch';
-import { invalid, redirect } from '@sveltejs/kit';
+import { invalid } from '@sveltejs/kit';
 import { APIError } from 'better-auth/api';
 import { getAuth } from '$lib/server/auth';
+import { redirectWithNext } from '$lib/server/auth-utils';
 
 export const loginRemoteFunction = form(loginSchema, async ({ email, password }, issue) => {
   const auth = getAuth()
@@ -22,7 +23,7 @@ export const loginRemoteFunction = form(loginSchema, async ({ email, password },
   }
 
   if (data && data.user) {
-    redirect(303, '/dashboard')
+    return redirectWithNext(getRequestEvent())
   }
 
   return {

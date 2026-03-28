@@ -6,13 +6,16 @@
     let { children } = $props();
 </script>
 
-<Sidebar.Provider style="--sidebar-width: calc(var(--spacing) * 72); --header-height: calc(var(--spacing) * 12);">
-    <AppSidebar variant="inset" collapsible="icon"/>
+<Sidebar.Provider
+    style="--sidebar-width: calc(var(--spacing) * 72); --header-height: calc(var(--spacing) * 12);"
+>
+    <AppSidebar variant="inset" collapsible="icon" />
     <Sidebar.Inset>
         <SiteHeader />
         <div class="flex flex-1 flex-col">
             <div class="@container/main flex flex-1 flex-col gap-2">
-				<div class="flex flex-col gap-4 px-2 py-4 md:gap-6 md:py-6">
+                <!-- <div class="flex flex-col gap-4 py-4 md:gap-6 md:py-3"> -->
+                <div class="flex flex-col gap-4 py-2 md:gap-6 md:py-4">
                     {@render children()}
                 </div>
             </div>

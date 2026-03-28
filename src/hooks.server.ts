@@ -7,7 +7,7 @@ import type { HandleValidationError } from '@sveltejs/kit';
 import { error, redirect } from "@sveltejs/kit";
 import { tryCatch } from "$lib/helpers/try-catch";
 
-const UNAUTHENTICATED_ROUTES = ['/', '/sign-up'];
+const UNAUTHENTICATED_ROUTES = ['/', '/create-admin'];
 
 function createLoginRedirectURL(event: { url: URL }) {
   if (event.url.searchParams.has('next')) return event.url.search;
@@ -59,7 +59,7 @@ const handleBetterAuth: Handle = async ({ event, resolve }) => {
     event.locals.session = session.session;
     event.locals.user = session.user;
     if (isPublicRoute(event.url.pathname)) {
-      redirect(307, '/projects');
+      redirect(307, '/dashboard');
     }
   }
 
