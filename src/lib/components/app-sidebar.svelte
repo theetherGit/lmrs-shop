@@ -1,17 +1,11 @@
 <script lang="ts">
     import ChartBarIcon from "@tabler/icons-svelte/icons/chart-bar";
-    import DatabaseIcon from "@tabler/icons-svelte/icons/database";
-    import FileWordIcon from "@tabler/icons-svelte/icons/file-word";
-    import HelpIcon from "@tabler/icons-svelte/icons/help";
     import ShoppingBag from "@tabler/icons-svelte/icons/shopping-bag";
-    import ReportIcon from "@tabler/icons-svelte/icons/report";
     import SearchIcon from "@tabler/icons-svelte/icons/search";
     import SettingsIcon from "@tabler/icons-svelte/icons/settings";
-    import UsersIcon from "@tabler/icons-svelte/icons/users";
     import PredictionIcon from "@tabler/icons-svelte/icons/artboard";
     import RevnueIcon from "@tabler/icons-svelte/icons/database-dollar";
     import DashboardIcon from "@tabler/icons-svelte/icons/layout-dashboard";
-    import NavDocuments from "./nav-documents.svelte";
     import NavMain from "./nav-main.svelte";
     import NavSecondary from "./nav-secondary.svelte";
     import NavUser from "./nav-user.svelte";
@@ -20,8 +14,22 @@
     import { useSidebar } from "$lib/components/ui/sidebar/index.js";
     import { page } from "$app/state";
     import { resolve } from "$app/paths";
+    import type { User } from "$lib/helpers/auth-client";
+    import type { Icon } from "@tabler/icons-svelte";
 
-    const data = {
+    type Nav = {
+        title: string;
+        url: Parameters<typeof resolve>[0];
+        icon?: Icon;
+    };
+
+    type NavigationData = {
+        user: User;
+        navMain: Nav[];
+        navSecondary: Nav[];
+    };
+
+    const data: NavigationData = {
         user: page.data.user,
         navMain: [
             {
@@ -30,58 +38,31 @@
                 icon: DashboardIcon,
             },
             {
-                title: "Predication",
+                title: "Daily Forecast",
                 url: "#",
                 icon: PredictionIcon,
             },
             {
-                title: "Production",
+                title: "Production Ledger",
                 url: "#",
                 icon: ChartBarIcon,
             },
             {
-                title: "Revnue",
+                title: "Sales Performance",
                 url: "#",
                 icon: RevnueIcon,
-            },
-            {
-                title: "Team",
-                url: "#",
-                icon: UsersIcon,
             },
         ],
         navSecondary: [
             {
                 title: "Settings",
-                url: "#",
+                url: "/settings",
                 icon: SettingsIcon,
-            },
-            {
-                title: "Get Help",
-                url: "#",
-                icon: HelpIcon,
             },
             {
                 title: "Search",
                 url: "#",
                 icon: SearchIcon,
-            },
-        ],
-        documents: [
-            {
-                name: "Data Library",
-                url: "#",
-                icon: DatabaseIcon,
-            },
-            {
-                name: "Reports",
-                url: "#",
-                icon: ReportIcon,
-            },
-            {
-                name: "Word Assistant",
-                url: "#",
-                icon: FileWordIcon,
             },
         ],
     };
@@ -119,7 +100,6 @@
     </Sidebar.Header>
     <Sidebar.Content>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} class="mt-auto" />
     </Sidebar.Content>
     <Sidebar.Footer>

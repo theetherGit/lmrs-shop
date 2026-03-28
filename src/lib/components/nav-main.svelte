@@ -1,12 +1,17 @@
 <script lang="ts">
-    import CirclePlusFilledIcon from "@tabler/icons-svelte/icons/circle-plus-filled";
-    import MailIcon from "@tabler/icons-svelte/icons/mail";
-    import { Button } from "$lib/components/ui/button/index.js";
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
     import type { Icon } from "@tabler/icons-svelte";
+    import { resolve } from "$app/paths";
 
-    let { items }: { items: { title: string; url: string; icon?: Icon }[] } =
-        $props();
+    let {
+        items,
+    }: {
+        items: {
+            title: string;
+            url: Parameters<typeof resolve>[0];
+            icon?: Icon;
+        }[];
+    } = $props();
 </script>
 
 <Sidebar.Group>
@@ -34,10 +39,12 @@
             {#each items as item (item.title)}
                 <Sidebar.MenuItem>
                     <Sidebar.MenuButton tooltipContent={item.title}>
-                        {#if item.icon}
-                            <item.icon />
-                        {/if}
-                        <span>{item.title}</span>
+                        {#snippet child({ props })}
+                            <a href={resolve(item.url)} {...props}>
+                                <item.icon />
+                                <span>{item.title}</span>
+                            </a>
+                        {/snippet}
                     </Sidebar.MenuButton>
                 </Sidebar.MenuItem>
             {/each}

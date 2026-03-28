@@ -1,13 +1,12 @@
 <script lang="ts">
-    import CreditCardIcon from "@tabler/icons-svelte/icons/credit-card";
     import DotsVerticalIcon from "@tabler/icons-svelte/icons/dots-vertical";
     import LogoutIcon from "@tabler/icons-svelte/icons/logout";
-    import NotificationIcon from "@tabler/icons-svelte/icons/notification";
     import UserCircleIcon from "@tabler/icons-svelte/icons/user-circle";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
     import type { User } from "$lib/helpers/auth-client.js";
+    import { resolve } from "$app/paths";
 
     let { user }: { user: User } = $props();
 
@@ -77,16 +76,12 @@
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
                     <DropdownMenu.Item>
-                        <UserCircleIcon />
-                        Account
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item>
-                        <CreditCardIcon />
-                        Billing
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item>
-                        <NotificationIcon />
-                        Notifications
+                        {#snippet child({ props })}
+                            <a href={resolve("/settings/user")} {...props}>
+                                <UserCircleIcon />
+                                <span>Account</span>
+                            </a>
+                        {/snippet}
                     </DropdownMenu.Item>
                 </DropdownMenu.Group>
                 <DropdownMenu.Separator />
