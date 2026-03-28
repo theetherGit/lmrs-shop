@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { FullWidthDivider } from "$lib/components/ui/full-width-divider";
-	import * as Empty from "$lib/components/ui/empty/index.js";
-	import { Button } from "$lib/components/ui/button";
-	import { HomeIcon } from "@lucide/svelte";
+	import { FullWidthDivider } from '$lib/components/ui/full-width-divider';
+	import * as Empty from '$lib/components/ui/empty/index.js';
+	import { Button } from '$lib/components/ui/button';
+	import { HomeIcon } from '@lucide/svelte';
 
-    type NotFoundedProps = {
-        statusCode: number
-        message: string
-    }
+	type NotFoundedProps = {
+		statusCode: number;
+		message: string;
+	};
 
-    let {statusCode, message}: NotFoundedProps = $props()
+	let { statusCode, message }: NotFoundedProps = $props();
 </script>
 
 <div class="flex w-full items-center justify-center">
@@ -20,7 +20,7 @@
 				<Empty.Header>
 					<Empty.Title class="font-mono text-8xl font-black">{statusCode || '404'}</Empty.Title>
 					<Empty.Description class="text-balance">
-                        {message || "The page you're looking for might have been moved or doesn't exist."}
+						{message || "The page you're looking for might have been moved or doesn't exist."}
 					</Empty.Description>
 				</Empty.Header>
 				<Empty.Content>

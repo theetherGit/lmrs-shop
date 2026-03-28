@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Progress as ProgressPrimitive } from "bits-ui";
-	import { cn, type WithoutChildrenOrChild } from "$lib/helpers/shadcn.js";
+	import { Progress as ProgressPrimitive } from 'bits-ui';
+	import { cn, type WithoutChildrenOrChild } from '$lib/helpers/shadcn.js';
 
 	let {
 		ref = $bindable(null),
@@ -14,14 +14,17 @@
 <ProgressPrimitive.Root
 	bind:ref
 	data-slot="progress"
-	class={cn("bg-muted h-3 rounded-4xl relative flex w-full items-center overflow-x-hidden", className)}
+	class={cn(
+		'relative flex h-3 w-full items-center overflow-x-hidden rounded-4xl bg-muted',
+		className
+	)}
 	{value}
 	{max}
 	{...restProps}
 >
 	<div
 		data-slot="progress-indicator"
-		class="bg-primary size-full flex-1 transition-all"
+		class="size-full flex-1 bg-primary transition-all"
 		style="transform: translateX(-{100 - (value ?? 0)}%)"
 	></div>
 </ProgressPrimitive.Root>

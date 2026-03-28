@@ -1,3 +1,3 @@
-import DecorIcon from "./decor-icon.svelte";
+import DecorIcon from './decor-icon.svelte';
 
 export { DecorIcon };

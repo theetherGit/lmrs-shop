@@ -7,10 +7,10 @@ export type Database = DrizzleD1Database<typeof schema>;
 export const dbContext = new AsyncLocalStorage<Database>();
 
 export function getDb(event?: ReturnType<typeof getRequestEvent>) {
-  if (event?.locals.db) {
-    return event?.locals.db;
-  }
-  const db = dbContext.getStore();
-  if (!db) throw new Error("Database context missing!");
-  return db;
+	if (event?.locals.db) {
+		return event?.locals.db;
+	}
+	const db = dbContext.getStore();
+	if (!db) throw new Error('Database context missing!');
+	return db;
 }

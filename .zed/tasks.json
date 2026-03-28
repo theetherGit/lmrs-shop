@@ -1,18 +1,18 @@
 [
-  {
-    "label": "dev",
-    "command": "pnpm run dev",
-    "allow_concurrent_runs": false,
-    "args": [],
-    "reveal_target": "dock",
-    "use_new_terminal": true
-  },
-  {
-    "label": "build",
-    "command": "pnpm run build"
-  },
-  {
-    "label": "db studio",
-    "command": "pnpm run db:studio"
-  }
+	{
+		"label": "dev",
+		"command": "pnpm run dev",
+		"allow_concurrent_runs": false,
+		"args": [],
+		"reveal_target": "dock",
+		"use_new_terminal": true
+	},
+	{
+		"label": "build",
+		"command": "pnpm run build"
+	},
+	{
+		"label": "db studio",
+		"command": "pnpm run db:studio"
+	}
 ]

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { WithElementRef } from "$lib/helpers/shadcn.js";
-	import type { HTMLAttributes } from "svelte/elements";
-	import { cn } from "$lib/helpers/shadcn.js";
+	import type { WithElementRef } from '$lib/helpers/shadcn.js';
+	import type { HTMLAttributes } from 'svelte/elements';
+	import { cn } from '$lib/helpers/shadcn.js';
 
 	let {
 		ref = $bindable(null),
@@ -15,7 +15,7 @@
 	bind:this={ref}
 	data-slot="breadcrumb"
 	aria-label="breadcrumb"
-	class={cn("cn-breadcrumb", className)}
+	class={cn('cn-breadcrumb', className)}
 	{...restProps}
 >
 	{@render children?.()}
