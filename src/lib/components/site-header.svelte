@@ -4,7 +4,7 @@
     import { Separator } from "$lib/components/ui/separator/index.js";
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
     import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
-    import HomeIcon from "@lucide/svelte/icons/home";
+    import HomeIcon from "@tabler/icons-svelte/icons/assembly";
 
     let breadcrumbs = $derived(
         page.url.pathname
@@ -31,9 +31,9 @@
         <Breadcrumb.Root>
             <Breadcrumb.List>
                 <Breadcrumb.Item>
-                    <Breadcrumb.Link href="/dashboard" class="capitalize">
+                    <Breadcrumb.Page class="capitalize">
                         <HomeIcon class="size-4!" />
-                    </Breadcrumb.Link>
+                    </Breadcrumb.Page>
                 </Breadcrumb.Item>
                 <Breadcrumb.Separator />
                 {#each breadcrumbs as crumb, index (crumb.href)}
