@@ -137,15 +137,15 @@
 
 <div class="gap-y- flex w-full flex-col gap-y-4">
 	{#if data && data.config}
-		<div class="flex flex-row items-center justify-between">
-			<div>
+		<div class="md::items-center flex w-full flex-col gap-y-4 md:flex-row md:justify-between">
+			<div class="w-full">
 				<h2 class="text-2xl font-semibold tracking-tight">App Config</h2>
-				<p class="text-sm text-muted-foreground">Manage your app config and settings here.</p>
+				<p class="text-sm text-muted-foreground">Manage app config and settings</p>
 			</div>
-			<div>
+			<div class="flex w-full flex-row items-center justify-between gap-2 md:justify-end">
 				<Button variant="default" size="lg" onclick={() => (showConfigForm = !showConfigForm)}>
 					<Pencil />
-					Edit
+					Edit Config
 				</Button>
 				<Button variant="secondary" size="lg" onclick={() => (showConfigForm = !showConfigForm)}>
 					<Plus />
