@@ -4,6 +4,7 @@ import { appConfigCreateSchema } from '$lib/models/zod-schema/app-config.schema.
 import { getDb } from '$lib/server/db';
 import { appSettings } from '$lib/models/db-schema/shop.schema';
 import { remoteFOrmReturnWithSuccess } from './utils';
+import { eq } from 'drizzle-orm';
 
 export const addAppConfigRemoteFunction = form(appConfigCreateSchema, async (validatedData, issue) => {
   const db = getDb();
@@ -31,7 +32,7 @@ export const updateAppConfig = form(appConfigCreateSchema, async (data, issue) =
     return remoteFOrmReturnWithSuccess(false, 'Are you trying to be a hacker?');
   }
 
-  const { error, data: appConfig } = await tryCatch(db.update(appSettings).set(data));
+  const { error, data: appConfig } = await tryCatch(db.update(appSettings).set(data).where(eq(appSettings.id, data.id)));
 
   if (error) {
     console.log(error);

@@ -1,10 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="T extends RemoteForm<any, any>">
 	import * as Field from '$lib/components/ui/field/index.js';
 	import * as InputGroup from '$lib/components/ui/input-group/index.js';
 	import RupeeIcon from '@tabler/icons-svelte/icons/currency-rupee';
 	import TrendingUp from '@tabler/icons-svelte/icons/trending-up';
 	import Shield from '@tabler/icons-svelte/icons/shield';
-	import { addAppConfigRemoteFunction } from '$lib/remote-functions/app-config.remote';
 	import type { RemoteFormEnhanceParams } from '$lib/remote-functions/utils';
 	import DateInput from '$lib/components/date-input.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -14,21 +13,35 @@
 	import { slide } from 'svelte/transition';
 	import { invalidateAll } from '$app/navigation';
 	import { Input } from '$lib/components/ui/input';
-	import { appConfigCreateSchema } from '$lib/models/zod-schema/app-config.schema';
+	import type { RemoteForm } from '@sveltejs/kit';
+	import { onMount } from 'svelte';
 
-	let { isDialogOrDrawerOpen = $bindable(false) }: { isDialogOrDrawerOpen: boolean } = $props();
+	type Props = {
+		isDialogOrDrawerOpen?: boolean;
+		remoteForm: T;
+		data: Record<string, unknown> | null;
+	};
 
-	let { fields } = addAppConfigRemoteFunction;
-	let { result, pending } = $derived(addAppConfigRemoteFunction);
+	let { isDialogOrDrawerOpen = $bindable(false), remoteForm, data }: Props = $props();
+
+	let { fields, result } = $derived(remoteForm);
 
 	let formState = $state({
 		isLoading: false
 	});
 
+	onMount(() => {
+		if (data) {
+			Object.entries(data).forEach(([key, value]) => {
+				fields[key].set(value);
+			});
+		}
+	});
+
 	async function enhancedForm({
 		form,
 		submit
-	}: RemoteFormEnhanceParams<typeof addAppConfigRemoteFunction.enhance>) {
+	}: RemoteFormEnhanceParams<typeof remoteForm.enhance>) {
 		formState.isLoading = true;
 		try {
 			await submit();
@@ -56,13 +69,13 @@
 
 <form
 	class="grid items-start gap-4"
-	{...addAppConfigRemoteFunction.preflight(appConfigCreateSchema).enhance(enhancedForm)}
-	onchange={() => addAppConfigRemoteFunction.validate()}
+	{...remoteForm.enhance(enhancedForm)}
+	onchange={() => remoteForm.validate()}
 >
 	<Field.Group class="mt-5">
 		<Field.Set>
 			<Field.Group class="grid grid-cols-1 lg:grid-cols-2">
-				<Input {...fields.id.as('hidden', 'new')} />
+				<Input {...fields.id.as('hidden', data?.id ?? 'new')} />
 				<!---Date from which this config is going to be live -->
 				<DateInput field={fields.date} label="Date" />
 				<!---Maker Price -->
@@ -209,9 +222,9 @@
 							</div>
 						{/if}
 						{#if formState.isLoading}
-							Creating config...
+							{data ? 'Updating' : 'Creating'} config...
 						{:else}
-							Create Config
+							{data ? 'Update' : 'Create'} Config
 						{/if}
 					</Button>
 				</Field.Field>

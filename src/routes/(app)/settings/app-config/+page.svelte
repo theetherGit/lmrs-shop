@@ -13,6 +13,11 @@
 	import { onMount } from 'svelte';
 	import CreateConfigForm from './(components)/create-config-form.svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { appConfigCreateSchema } from '$lib/models/zod-schema/app-config.schema';
+	import {
+		addAppConfigRemoteFunction,
+		updateAppConfig
+	} from '$lib/remote-functions/app-config.remote';
 
 	let { data }: PageProps = $props();
 	const isMobile = new IsMobile();
@@ -21,6 +26,8 @@
 		| typeof import('$lib/components/ui/drawer/index.js')
 		| null = $state(null);
 	let showConfigForm: boolean = $state(false);
+	let formRemoteFunction = $state(addAppConfigRemoteFunction);
+	let formData: typeof data.config = $derived(null);
 
 	onMount(async () => {
 		const views = {
@@ -61,7 +68,7 @@
 
 	type ConfigData = {
 		title: string;
-		accessor: keyof typeof data.config;
+		accessor: keyof typeof appConfigCreateSchema.shape;
 		reverse: boolean;
 		suffix: '%' | '/piece';
 	};
@@ -98,6 +105,18 @@
 			suffix: '%'
 		}
 	];
+
+	function OpenCreateConfigForm() {
+		formRemoteFunction = addAppConfigRemoteFunction;
+		formData = null;
+		showConfigForm = true;
+	}
+
+	function OpenUpdateConfigForm() {
+		formRemoteFunction = updateAppConfig;
+		formData = data.config;
+		showConfigForm = true;
+	}
 </script>
 
 {#snippet TrendBadgeIcon(stats: ReturnType<typeof getStatDiffCurrentVsOld>, reverse = false)}
@@ -143,11 +162,11 @@
 				<p class="text-sm text-muted-foreground">Manage app config and settings</p>
 			</div>
 			<div class="flex w-full flex-row items-center justify-between gap-2 md:justify-end">
-				<Button variant="default" size="lg" onclick={() => (showConfigForm = !showConfigForm)}>
+				<Button variant="default" size="lg" onclick={OpenUpdateConfigForm}>
 					<Pencil />
 					Edit Config
 				</Button>
-				<Button variant="secondary" size="lg" onclick={() => (showConfigForm = !showConfigForm)}>
+				<Button variant="secondary" size="lg" onclick={OpenCreateConfigForm}>
 					<Plus />
 					New Config
 				</Button>
@@ -159,7 +178,10 @@
 			{#each configData as { title, accessor, reverse, suffix } (accessor)}
 				{@const configItem = data.config[accessor]}
 				<Card.Root class="@container/card">
-					{@const stats = getStatDiffCurrentVsOld(configItem, data.oldConfig?.[accessor] ?? 0)}
+					{@const stats = getStatDiffCurrentVsOld(
+						Number(configItem),
+						Number(data.oldConfig?.[accessor] ?? 0)
+					)}
 					<Card.Header>
 						<Card.Description>{title}</Card.Description>
 						<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -186,7 +208,7 @@
 					<Empty.Description>Create a new config</Empty.Description>
 				</Empty.Header>
 				<Empty.Content>
-					<Button onclick={() => (showConfigForm = !showConfigForm)}>
+					<Button onclick={OpenCreateConfigForm}>
 						<Plus />
 						Create Config
 					</Button>
@@ -208,7 +230,11 @@
 					<FormView.Title>Create config</FormView.Title>
 					<FormView.Description>We need this config for app to work properly.</FormView.Description>
 				</FormView.Header>
-				<CreateConfigForm bind:isDialogOrDrawerOpen={showConfigForm} />
+				<CreateConfigForm
+					bind:isDialogOrDrawerOpen={showConfigForm}
+					remoteForm={formRemoteFunction}
+					data={formData}
+				/>
 			</ScrollArea>
 		</FormView.Content>
 	</FormView.Root>
