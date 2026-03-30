@@ -1,10 +1,10 @@
 import { form } from '$app/server';
 import { getDiceBearURL } from '$lib/helpers/dice-bear';
 import { tryCatch } from '$lib/helpers/try-catch.js';
-import { registerSchema } from '$lib/models/auth-schema.js';
+import { registerSchema } from '$lib/models/zod-schema/auth-schema.js';
 import { getAuth } from '$lib/server/auth.js';
 import { getDb } from '$lib/server/db';
-import { user } from '$lib/server/db/auth.schema';
+import { user } from '$lib/models/db-schema/auth.schema';
 import { APIError } from 'better-auth/api';
 import { DrizzleQueryError } from 'drizzle-orm';
 import { eq } from 'drizzle-orm/sql';

@@ -11,6 +11,7 @@
 	import { slide } from 'svelte/transition';
 	import { sineInOut } from 'svelte/easing';
 	import type { RemoteFormEnhanceParams } from '$lib/remote-functions/utils';
+	import { toast } from 'svelte-sonner';
 
 	type AuthTwoProps = HTMLAttributes<HTMLDivElement> & {
 		class?: string;
@@ -27,7 +28,8 @@
 		isLoading: false
 	});
 
-	let { fields, result } = loginRemoteFunction;
+	let { fields } = loginRemoteFunction;
+	let { result } = $derived(loginRemoteFunction);
 
 	async function enhancedFormLogin({
 		form,
@@ -36,8 +38,17 @@
 		formState.isLoading = true;
 		try {
 			await submit();
-			if (result?.success) {
-				form.reset();
+			switch (result?.success) {
+				case true:
+					form.reset();
+					toast.success(result?.message as string);
+					break;
+				case false:
+					toast.error(result?.message as string);
+					break;
+				default:
+					toast.warning('Error while getting form result.');
+					break;
 			}
 		} catch (error) {
 			console.log(error);

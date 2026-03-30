@@ -1,2 +1,1 @@
-export * from './auth.schema.js';
-export * from './shop.schema.js';
+export * from '../../models/db-schema/index.js';

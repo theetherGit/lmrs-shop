@@ -39,7 +39,7 @@ export const salesPerformance = sqliteTable(
 		// Will be calculated from actual revnue, openingStock + freshProduced - closingStock
 		estimatedSold: integer('estimated_sold').notNull(),
 		// Predication for the day
-		forcastedStock: integer('forcasted_stock').notNull(),
+		forecastedStock: integer('forecasted_stock').default(0),
 
 		// Financials
 		// How much we earned at the end of the day.
@@ -47,16 +47,16 @@ export const salesPerformance = sqliteTable(
 		// Expected Revnue = total stock * maker rate
 		targetRevenue: integer('target_revenue').notNull(),
 		// Predication for the day
-		forecastedRevenue: integer('forecasted_revenue').notNull(),
+		forecastedRevenue: integer('forecasted_revenue').default(0),
 
-		// Forcast Health Metrics
+		// Forecast Health Metrics
 		// Outlier is when we had unexpected sales number for the day
 		isOutlier: integer('is_outlier', { mode: 'boolean' }).notNull(),
 		// Z-Score tells you how many "Standard Deviations" a day's revenue is from your usual average.
 		zScore: real('z_score').notNull(),
 		// Accuracy = actualRevenue/predictedRevnue
-		accuracy: real('accuracy').notNull(),
-		// Actual weights happended in real, {heavy_rain: 1.2, exam_core: '1.4'}
+		accuracy: real('accuracy').default(-1),
+		// Actual weights happened in real, {heavy_rain: 1.2, exam_core: '1.4'}
 		appliedWeights: text('applied_weights', { mode: 'json' })
 			.$type<Record<string, number>>()
 			.notNull(),
@@ -73,7 +73,7 @@ export const factorType = sqliteTable(
 	'factor_type',
 	{
 		id: text('id').primaryKey().$defaultFn(ulid),
-		// Type are main differenciatores like rain, exam, holiday, season
+		// Type are main differentiators like rain, exam, holiday, season
 		category: text('category').notNull(),
 		// Sub categories are heavy (for rain), core (exam), mid sem break (holiday), summer(season)
 		subCategory: text('sub_category').notNull(),
@@ -135,10 +135,10 @@ export const forecast = sqliteTable(
 		date: text('date').notNull().unique(),
 		// Predicated revenue for the
 		revenue: integer('revenue').notNull(),
-		// Calculated from the predicated revnue of the day
+		// Calculated from the predicated revenue of the day
 		stock: text('stock').notNull(),
-		// baseline revnue is the revnue before we apply weights
-		baselineRevnue: integer('baseline_revnue').notNull(),
+		// baseline revenue is the revenue before we apply weights
+		baselineRevenue: integer('baseline_revenue').notNull(),
 		// weights based on assumption for the day, {heavy_rain: 1.2, exam_core: '1.4'}
 		weights: text('weights', { mode: 'json' }).$type<Record<string, number>>().notNull()
 	},
@@ -183,7 +183,7 @@ export const appSettings = sqliteTable(
 		minSellingPrice: real('min_selling_price').notNull().default(10.0),
 		// Maximum selling price as we have two servings 25 and 30, so minim sell price for 25rs plate with 2piece is 12.5rs
 		maxSellingPrice: real('max_selling_price').notNull().default(12.5),
-		// Having an addition safty buffer for additional sales
+		// Having an addition safety buffer for additional sales
 		safetyBuffer: real('safety_buffer').notNull().default(1.1),
 		// The rate we are growing yearly or monthly
 		growthRate: real('growth_rate').notNull().default(1.0),

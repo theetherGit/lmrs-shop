@@ -1,0 +1,1 @@
+ALTER TABLE `forecast` RENAME COLUMN "baseline_revnue" TO "baseline_revenue";

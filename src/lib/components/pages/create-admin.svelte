@@ -13,7 +13,7 @@
 	import { slide } from 'svelte/transition';
 	import { sineInOut } from 'svelte/easing';
 	import { toast } from 'svelte-sonner';
-	import { registerSchema } from '$lib/models/auth-schema';
+	import { registerSchema } from '$lib/models/zod-schema/auth-schema';
 
 	type AuthTwoProps = HTMLAttributes<HTMLDivElement> & {
 		class?: string;
@@ -25,7 +25,8 @@
 		isLoading: false
 	});
 
-	let { fields, result } = createAdminRemoteFunction;
+	let { fields } = createAdminRemoteFunction;
+	let { result } = $derived(createAdminRemoteFunction);
 
 	async function enhancedFormLogin({
 		form,
@@ -35,7 +36,6 @@
 		formState.isLoading = true;
 		try {
 			await submit();
-			await new Promise((resolve) => setTimeout(resolve, 1000));
 			switch (result?.success) {
 				case true:
 					form.reset();
