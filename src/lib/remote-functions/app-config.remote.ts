@@ -5,6 +5,9 @@ import { getDb } from '$lib/server/db';
 import { appSettings } from '$lib/models/db-schema/shop.schema';
 import { remoteFOrmReturnWithSuccess } from './utils';
 import { eq } from 'drizzle-orm';
+import { DrizzleQueryError } from 'drizzle-orm/errors';
+import { invalid } from '@sveltejs/kit';
+
 
 export const addAppConfigRemoteFunction = form(appConfigCreateSchema, async (validatedData, issue) => {
   const db = getDb();
@@ -36,6 +39,9 @@ export const updateAppConfig = form(appConfigCreateSchema, async (data, issue) =
 
   if (error) {
     console.log(error);
+    if (error instanceof DrizzleQueryError) {
+      invalid(issue('Unable to update the app config. Please check your input and try again.'));
+    }
     return remoteFOrmReturnWithSuccess(false, 'Unable to update the app config.');
   }
 

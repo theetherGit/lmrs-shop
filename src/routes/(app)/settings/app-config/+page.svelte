@@ -103,6 +103,12 @@
 			accessor: 'growthRate',
 			reverse: false,
 			suffix: '%'
+		},
+		{
+			title: 'Safety Buffer',
+			accessor: 'safetyBuffer',
+			reverse: false,
+			suffix: '%'
 		}
 	];
 
@@ -149,7 +155,15 @@
 			{/if}
 		</div>
 		<div class="text-muted-foreground">
-			Price {stats && stats.state ? 'hiked' : 'lowered'} by &#8377; {stats.diff.toFixed(2)}
+			{#if stats.state === 'noChange'}
+				No change in price.
+			{:else if stats.state === 'up'}
+				Price hiked by &#8377; {stats.diff.toFixed(2)} which is {stats.percent} % higher than before.
+			{:else if stats.state === 'down'}
+				Price lowered by &#8377; {Math.abs(stats.diff).toFixed(2)} which is {Math.abs(
+					stats.percent
+				)} % lower than before.
+			{/if}
 		</div>
 	{/if}
 {/snippet}
