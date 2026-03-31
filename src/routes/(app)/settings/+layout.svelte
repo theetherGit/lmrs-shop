@@ -9,7 +9,7 @@
 	let currentRoute: SettingsRoute['key'] = $state('appConfig');
 
 	type SettingsRoute = {
-		key: 'appConfig' | 'user';
+		key: 'appConfig' | 'user' | 'serving';
 		value: string;
 		url: Parameters<typeof resolve>[0];
 	};
@@ -19,6 +19,11 @@
 			key: 'appConfig',
 			value: 'App Config',
 			url: '/settings/app-config'
+		},
+		{
+			key: 'serving',
+			value: 'Serving Settings',
+			url: '/settings/serving'
 		},
 		{
 			key: 'user',

@@ -140,7 +140,11 @@
 	{/if}
 {/snippet}
 
-{#snippet StateDescription(stats: ReturnType<typeof getStatDiffCurrentVsOld>, title: string)}
+{#snippet StateDescription(
+	stats: ReturnType<typeof getStatDiffCurrentVsOld>,
+	title: string,
+	suffix: ConfigData['suffix']
+)}
 	{#if stats}
 		<div class="line-clamp-1 flex gap-2 font-medium">
 			{title}
@@ -156,13 +160,21 @@
 		</div>
 		<div class="text-muted-foreground">
 			{#if stats.state === 'noChange'}
-				No change in price.
+				No change in {title} since last update.
 			{:else if stats.state === 'up'}
-				Price hiked by &#8377; {stats.diff.toFixed(2)} which is {stats.percent} % higher than before.
+				Increased by
+				{#if suffix === '%'}
+					{stats.diff.toFixed(2)} %
+				{:else}
+					&#8377; {stats.diff.toFixed(2)}
+				{/if}
+				which is {stats.percent} % higher than before.
 			{:else if stats.state === 'down'}
-				Price lowered by &#8377; {Math.abs(stats.diff).toFixed(2)} which is {Math.abs(
-					stats.percent
-				)} % lower than before.
+				Lowered by {#if suffix === '%'}
+					{stats.diff.toFixed(2)} %
+				{:else}
+					&#8377; {Math.abs(stats.diff).toFixed(2)}
+				{/if} which is {Math.abs(stats.percent)} % lower than before.
 			{/if}
 		</div>
 	{/if}
@@ -204,7 +216,7 @@
 						{@render TrendBadgeIcon(stats, reverse)}
 					</Card.Header>
 					<Card.Footer class="flex-col items-start gap-1.5 text-sm">
-						{@render StateDescription(stats, title)}
+						{@render StateDescription(stats, title, suffix)}
 					</Card.Footer>
 				</Card.Root>
 			{/each}
@@ -237,9 +249,9 @@
 		<FormView.Content
 			interactOutsideBehavior="close"
 			preventScroll={false}
-			class="max-w-[60svw] min-w-[50svw]"
+			class="lg: max-h-[90svh] p-0 lg:max-w-[60svw] lg:min-w-[50svw] lg:p-4"
 		>
-			<ScrollArea class="h-full xl:pr-0">
+			<ScrollArea class="h-full overflow-y-auto xl:pr-0">
 				<FormView.Header>
 					<FormView.Title>Create config</FormView.Title>
 					<FormView.Description>We need this config for app to work properly.</FormView.Description>
