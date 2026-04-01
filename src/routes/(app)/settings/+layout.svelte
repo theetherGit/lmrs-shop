@@ -8,7 +8,7 @@
 	let { children } = $props();
 
 	type SettingsRoute = {
-		key: 'appConfig' | 'user' | 'serving';
+		key: 'appConfig' | 'user' | 'serving' | 'factorType';
 		value: string;
 		url: Parameters<typeof resolve>[0];
 	};
@@ -23,6 +23,11 @@
 			key: 'serving',
 			value: 'Food Menu',
 			url: '/settings/serving'
+		},
+		{
+			key: 'factorType',
+			value: 'Factor Types',
+			url: '/settings/factor-type'
 		},
 		{
 			key: 'user',
