@@ -6,13 +6,10 @@ import { servingOption } from "$lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { remoteFOrmReturnWithSuccess } from "./utils";
 
-export const createShopMenuRemoteFunction = form(createShopFoodMenu, async (data, issue) => {
+export const createShopMenuRemoteFunction = form(createShopFoodMenu, async (data) => {
   const db = getDb();
 
   const { error, data: drizzleResponse } = await tryCatch(db.insert(servingOption).values(data));
-  console.log('error', error)
-  console.log('drizzleResponse', drizzleResponse)
-  console.log('data', data)
   if (error) {
     console.log(error);
     return remoteFOrmReturnWithSuccess(false, "Unable to create menu item");
@@ -25,7 +22,7 @@ export const createShopMenuRemoteFunction = form(createShopFoodMenu, async (data
   return remoteFOrmReturnWithSuccess(false, "Unable to create menu item");
 });
 
-export const updateShopMenuRemoteFunction = form(updateShopFoodMenu, async (data, issue) => {
+export const updateShopMenuRemoteFunction = form(updateShopFoodMenu, async (data) => {
   const db = getDb();
 
   if (!data.id) {

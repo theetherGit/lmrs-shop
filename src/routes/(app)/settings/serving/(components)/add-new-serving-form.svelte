@@ -15,6 +15,7 @@
 	import { sineInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 	import RupeeIcon from '@tabler/icons-svelte/icons/currency-rupee';
+	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 
 	type RemoteFormType = typeof createShopMenuRemoteFunction | typeof updateShopMenuRemoteFunction;
 
@@ -60,7 +61,6 @@
 		submit
 	}: RemoteFormEnhanceParams<typeof remoteForm.enhance>) {
 		formState.isLoading = true;
-		console.log(JSON.stringify(data, null, 2));
 		try {
 			await submit();
 			if (result?.success === true) {
@@ -151,11 +151,10 @@
 					{/if}
 				</Field.Field>
 				<Field.Field orientation="horizontal">
-					<input
-						type="checkbox"
-						name={fields.isActive.as('checkbox').name}
+					<input type="hidden" name="isActive" value={fields.isActive.value()} />
+					<Checkbox
 						checked={fields.isActive.value()}
-						onchange={(e) => fields.isActive.set(e.currentTarget.checked)}
+						onCheckedChange={(value) => fields.isActive.set(value)}
 						aria-invalid={!!fields.isActive.issues()?.length}
 					/>
 					<Field.Label>Currenly serving this serving?</Field.Label>
