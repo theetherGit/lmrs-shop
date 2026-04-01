@@ -8,6 +8,13 @@
       "when": 1774944879642,
       "tag": "0000_marvelous_eternals",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1775014963224,
+      "tag": "0001_tough_franklin_richards",
+      "breakpoints": true
     }
   ]
 }

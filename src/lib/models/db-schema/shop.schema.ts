@@ -12,8 +12,6 @@ export const servingOption = sqliteTable(
     pieces: integer('pieces').notNull(),
     // Price for this serving option, e.g., 25 for Rs. 25, 30 for Rs. 30
     price: real('price').notNull(),
-    // Per piece price calculated as price/pieces, e.g., 12.5 for Rs. 25, 10 for Rs. 30
-    perPiecePrice: real('per_piece_price').notNull(),
     // Active status to easily enable/disable serving options without deleting them
     isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
     // Timestamps for record keeping

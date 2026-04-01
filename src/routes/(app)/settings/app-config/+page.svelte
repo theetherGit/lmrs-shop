@@ -180,7 +180,7 @@
 	{/if}
 {/snippet}
 
-<div class="gap-y- flex w-full flex-col gap-y-4">
+<div class="flex w-full flex-col gap-y-4">
 	{#if data && data.config}
 		<div class="md::items-center flex w-full flex-col gap-y-4 md:flex-row md:justify-between">
 			<div class="w-full">

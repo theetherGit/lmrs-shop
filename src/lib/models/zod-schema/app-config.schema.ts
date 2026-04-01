@@ -11,4 +11,7 @@ export const appConfigCreateSchema = createInsertSchema(appSettings, {
   safetyBuffer: (s) => s.refine((val) => val.toFixed(2)),
   growthRate: (s) => s.refine((val) => val.toFixed(2)),
 }).required();
-export const appConfigUpdateSchema = createUpdateSchema(appSettings);
+
+export const appConfigUpdateSchema = createUpdateSchema(appSettings, {
+  id: (s) => s.nonoptional()
+});

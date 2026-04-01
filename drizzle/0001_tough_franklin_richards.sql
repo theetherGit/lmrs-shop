@@ -1,0 +1,1 @@
+ALTER TABLE `serving_option` DROP COLUMN `per_piece_price`;

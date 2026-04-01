@@ -10,11 +10,11 @@ import { invalid } from '@sveltejs/kit';
 
 
 export const addAppConfigRemoteFunction = form(appConfigCreateSchema, async (validatedData, issue) => {
-  const db = getDb();
   const { id, ...data } = validatedData;
   if (id && id !== 'new') {
     return remoteFOrmReturnWithSuccess(false, 'Why we have a random id here.');
   }
+  const db = getDb();
 
   const { error, data: appConfig } = await tryCatch(db.insert(appSettings).values(data));
   if (error) {
