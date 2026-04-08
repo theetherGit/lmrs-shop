@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChartBarIcon from '@tabler/icons-svelte/icons/chart-bar';
+	import ChartBarIcon from '@tabler/icons-svelte/icons/database-edit';
 	import ShoppingBag from '@tabler/icons-svelte/icons/shopping-bag';
 	import SearchIcon from '@tabler/icons-svelte/icons/search';
 	import SettingsIcon from '@tabler/icons-svelte/icons/settings';
@@ -43,8 +43,8 @@
 				icon: PredictionIcon
 			},
 			{
-				title: 'Production Ledger',
-				url: '#',
+				title: 'Inventory',
+				url: '/inventory',
 				icon: ChartBarIcon
 			},
 			{

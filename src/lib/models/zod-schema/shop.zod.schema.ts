@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const stockTypes = ['fresh', 'closing', 'opening']
+
 export const createShopFoodMenu = z.object({
   name: z.string(),
   price: z.number().positive().refine((val) => val.toFixed(2)),
@@ -18,5 +20,17 @@ export const createFactorType = z.object({
 }).required();
 
 export const updateFactorType = createFactorType.partial().extend({
+  id: z.string().nonempty("ID is required for update")
+});
+
+export const createInventory = z.object({
+  date: z.string().refine((value) => new Date(value).toISOString().split('T')[0]),
+  stock_type: z.enum(stockTypes, "Stock type can only be fresh, closing and opening").optional().nullable(),
+  stock: z.preprocess((val) => Number(val), z.number().positive("Stock quantity must be greater than 0").int("Stock must be a whole number")),
+  rate: z.preprocess((val) => Number(val), z.number().nonnegative("Rate must be a non-negative number")),
+  amount: z.preprocess((val) => Number(val), z.number().nonnegative("Amount must be a non-negative number"))
+}).required();
+
+export const updateInventory = createInventory.partial().extend({
   id: z.string().nonempty("ID is required for update")
 });

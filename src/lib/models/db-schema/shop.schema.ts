@@ -33,7 +33,7 @@ export const inventory = sqliteTable(
     // Date of production or stock update
     date: text('date').notNull(),
     // Type of stock update: 'fresh' for new stock from producer, 'closing' for end of day stock count, 'opening' for start of day stock count
-    stock_type: text('type', { enum: ['fresh', 'closing', 'opening'] }),
+    stockType: text('type', { enum: ['fresh', 'closing', 'opening'] }),
     // Quantity of stock produced or counted
     stock: integer('quantity').notNull(),
     // Cost per piece for this stock update, useful for calculating total cost and financial analysis, can vary for fresh stock vs closing stock
@@ -41,7 +41,7 @@ export const inventory = sqliteTable(
     // Total cost for this stock update, calculated as stock * rate, useful for financial analysis and forecasting
     amount: real('amount').notNull()
   },
-  (table) => [index('inventory_date_idx').on(table.date), index('inventory_type_idx').on(table.stock_type)]
+  (table) => [index('inventory_date_idx').on(table.date), index('inventory_type_idx').on(table.stockType)]
 );
 
 export const operatingRevenue = sqliteTable(
